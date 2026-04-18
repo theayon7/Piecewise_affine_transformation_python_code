@@ -1,76 +1,128 @@
-Piecewise Affine Transformation — Digital Image Processing
+# 📌 Piecewise Affine Transformation for Digital Image Processing
 
-This repository contains a complete pipeline for performing Piecewise Affine Transformation on digital images. Unlike global affine transformations that apply a single mathematical mapping to an entire image, piecewise affine transformation handles local, non-linear deformations. It achieves this by splitting the image into a triangular mesh (using Delaunay triangulation) and applying a unique affine matrix to each specific triangle.
+## 📖 Overview
 
-This is a verified Kaggle notebook implementation, referencing concepts from MDPI Remote Sensing 2019 (DOI:10.3390/rs11192235).
+This project implements **Piecewise Affine Transformation (PAT)**, a geometric transformation technique widely used in **digital image processing** for image warping, alignment, and morphing.
 
-✨ Features
+Unlike global transformations, piecewise affine works by dividing an image into smaller regions (typically triangles) and applying affine transformations locally, resulting in more flexible and accurate mappings.
 
-Control Point Generation: Creates a uniform grid of source control points and applies a sine-wave distortion to destination points to simulate a smooth, local deformation.
+---
 
-Delaunay Triangulation: Computes and visualizes the source and destination triangular meshes using scipy.spatial.Delaunay.
+## 🎯 Objectives
 
-Manual Inverse Warping Algorithm: A from-scratch implementation of the transformation calculating per-triangle affine matrices, barycentric point-in-triangle testing, and bilinear interpolation to avoid aliasing artifacts.
+* Implement piecewise affine transformation from scratch
+* Perform image warping using control points
+* Visualize transformed outputs
+* Understand local vs global geometric transformations
 
-Optimized scikit-image Pipeline: Demonstrates a significantly faster, built-in approach using skimage.transform.PiecewiseAffineTransform.
+---
 
-Global Affine Baseline: Compares the piecewise approach against a standard 3-point global affine transformation using OpenCV (cv2.getAffineTransform).
+## 🧠 Concept
 
-Quantitative Evaluation: Calculates image quality metrics, including Mean Squared Error (MSE) and Structural Similarity Index (SSIM).
+Piecewise affine transformation works in three main steps:
 
-Advanced Visualizations: Generates a comprehensive 2x3 comparison figure and transformation interpolation frames to visualize how the deformation builds up gradually.
+1. **Control Point Selection**
+   Define corresponding key points between source and target images.
 
-🛠️ Prerequisites & Installation
+2. **Triangulation**
+   Apply Delaunay triangulation to divide the image into triangles.
 
-The code is written in Python 3. To run this notebook locally, you will need the following libraries:
+3. **Local Affine Transformation**
+   Each triangle is transformed independently using affine mapping.
 
-pip install numpy opencv-python-headless matplotlib scipy scikit-image
+---
 
+## ⚙️ Pipeline
 
-(Note: If you are running this on Kaggle, these packages are pre-installed).
+```
+Input Image
+     ↓
+Select Control Points
+     ↓
+Delaunay Triangulation
+     ↓
+Compute Affine Transform (per triangle)
+     ↓
+Warp Each Triangle
+     ↓
+Merge Output Image
+```
 
-🚀 Usage
+---
 
-Simply open the piecewise-affine-transformation.ipynb notebook and run the cells from top to bottom.
+## 🛠️ Technologies Used
 
-By default, the script uses the built-in astronaut image from skimage.data, meaning no external dataset downloads are required. If you want to use your own image, replace the load_image() function in Block 2 with:
+* Python 🐍
+* NumPy
+* OpenCV
+* Matplotlib
 
-image = cv2.imread('path/to/your/image.jpg')
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+---
 
+## 📂 Project Structure
 
-📊 Pipeline Overview
+```
+├── piecewise-affine-transformation.ipynb   # Main implementation notebook
+├── images/                                # Input/output images (optional)
+├── README.md                              # Project documentation
+```
 
-The notebook is structured into logical, reproducible blocks:
+---
 
-Install & Import Libraries
+## 🚀 How to Run
 
-Load Image: Prepares the 256x256 input image.
+1. Clone the repository:
 
-Generate Control Points: Maps source grid coordinates to sinusoidally distorted destination coordinates.
+```bash
+git clone https://github.com/your-username/piecewise-affine-transformation.git
+```
 
-Delaunay Triangulation & Mesh Visualization 5. Per-Triangle Affine Matrix Computation: Uses least-squares for numerical stability.
+2. Install dependencies:
 
-Manual Inverse Warping 7. scikit-image Implementation: The fast pipeline.
+```bash
+pip install numpy opencv-python matplotlib
+```
 
-Global Affine Transformation: Establishes a fixed baseline using 3 non-collinear interior points.
+3. Run the notebook:
 
-Evaluation: Computes MSE and SSIM.
+```bash
+jupyter notebook piecewise-affine-transformation.ipynb
+```
 
-Final Comparison Figure: Exports piecewise_affine_results.png.
+---
 
-Transformation Interpolation Frames: Exports interpolation_frames.png showing t=0 to t=1 gradual warping.
+## 📊 Results
 
-📈 Results
+* Smooth image warping using local transformations
+* Better accuracy compared to global affine transformation
+* Useful for face morphing, medical imaging, and object alignment
 
-The notebook generates local image outputs demonstrating that the piecewise affine method easily handles local deformations better than a single global affine transform, proven by both visual difference maps and structural metrics (lower MSE, higher SSIM).
+---
 
-Generated Output Files:
+## 📸 Example Use Cases
 
-piecewise_affine_results.png — A 2x3 summary figure showing original, meshes, global vs. piecewise results, and a difference map.
+* Face morphing
+* Image registration
+* Animation effects
+* Medical image alignment
 
-interpolation_frames.png — A 1x6 plot showing the transition of the warp from $t=0.0$ to $t=1.0$.
+---
 
-📚 References
+## 🔮 Future Work
 
-MDPI Remote Sensing 2019: DOI: 10.3390/rs11192235
+* Automate control point detection using feature matching
+* Extend to real-time video transformation
+* Integrate deep learning-based landmark detection
+* Optimize performance for large images
+
+---
+
+## 🤝 Contribution
+
+Feel free to fork this repository and submit pull requests for improvements.
+
+---
+
+## 📜 License
+
+This project is for academic and educational purposes.
